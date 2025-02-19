@@ -2,9 +2,11 @@ package org.cibanc.customer_service.service;
 
 import lombok.AllArgsConstructor;
 import org.cibanc.customer_service.dto.CustomerDTO;
+import org.cibanc.customer_service.exceptions.CustomerNotFoundException;
 import org.cibanc.customer_service.mapper.CustomerMapper;
 import org.cibanc.customer_service.model.Customer;
 import org.cibanc.customer_service.repository.CustomerRepository;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,7 +37,8 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public CustomerDTO getCustomerById(Long id) {
-        Customer customer = customerRepository.findById(id).orElse(null);
-        return (customer != null) ? customerMapper.toDTO(customer) : null;
+        return customerRepository.findById(id)
+                .map(customerMapper::toDTO)
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found with id: " + id));
     }
 }

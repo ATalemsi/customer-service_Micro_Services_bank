@@ -3,6 +3,7 @@ package org.cibanc.customer_service.controller;
 import lombok.AllArgsConstructor;
 import org.cibanc.customer_service.dto.CustomerDTO;
 import org.cibanc.customer_service.service.CustomerService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,11 @@ import java.util.List;
 public class CustomerController {
 
     private CustomerService customerService;
+
+    @GetMapping("/hello")
+    public String helloworld(){
+        return "Hello world";
+    }
 
     @PostMapping
     public CustomerDTO addCustomer(@RequestBody CustomerDTO customerDTO) {
@@ -25,7 +31,8 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public CustomerDTO getCustomerById(@PathVariable Long id) {
-        return customerService.getCustomerById(id);
+    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Long id) {
+        CustomerDTO customerDTO = customerService.getCustomerById(id);
+        return ResponseEntity.ok(customerDTO);
     }
 }

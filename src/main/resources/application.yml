@@ -3,18 +3,6 @@ spring:
     name: customer-service
   config:
     import: optional:configserver:http://localhost:8888
-  datasource:
-    url: jdbc:mysql://localhost:3306/customer_db
-    username: root
-    password:
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-
-server:
-  port: 8081
-
 eureka:
   instance:
     prefer-ip-address: true
